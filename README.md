@@ -1,6 +1,6 @@
 Here is a comprehensive and professional `README.md` file for your repository. You can copy the code block below and save it as `README.md` in your project root.
 
-```markdown
+
 # 🇮🇳 Indian Kanoon PII Masker
 
 A robust Python-based tool that interfaces with the **Indian Kanoon API** to fetch legal documents and automatically masks **Personally Identifiable Information (PII)** (such as names, phone numbers, emails, and addresses) using advanced Natural Language Processing (NLP).
