@@ -1,9 +1,4 @@
-Here is the updated **README.md** that accurately reflects the new functionality (Context-Aware Masking) and the new Web UI (FastAPI).
-
-You can copy the code block below and overwrite your existing `README.md`.
-
-
-# 🇮🇳 Indian Kanoon SafeView: Context-Aware PII Masker
+# 🇮🇳 Indian Kanoon : Context-Aware PII Masker
 
 A sophisticated Python-based tool that interfaces with the **Indian Kanoon API** to fetch legal documents and intelligently masks sensitive information. 
 
