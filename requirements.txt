@@ -1,6 +1,7 @@
+fastapi
+uvicorn
+jinja2
 requests
 presidio-analyzer
 presidio-anonymizer
 spacy
-# You will also need to download the spacy model after installing:
-# python -m spacy download en_core_web_lg
