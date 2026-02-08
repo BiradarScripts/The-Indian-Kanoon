@@ -9,16 +9,32 @@ class KanoonClient:
             "Accept": "application/json"
         }
 
-    def search_documents(self, query):
+    def search_documents(self, query, pagenum=0):
+        """
+        Searches for documents based on a query with pagination support.
+        """
+        endpoint = f"{self.base_url}/search/"
+        params = {
+            "formInput": query,
+            "pagenum": pagenum
+        }
+        
         try:
-            resp = requests.post(f"{self.base_url}/search/", headers=self.headers, params={"formInput": query})
-            return resp.json() if resp.status_code == 200 else {}
-        except:
+            # The API documentation specifies parameters in the URL, but POST is also supported for the API key approach.
+            # Using params=params ensures they are added to the URL query string.
+            response = requests.post(endpoint, headers=self.headers, params=params)
+            response.raise_for_status()
+            return response.json()
+        except requests.exceptions.RequestException as e:
+            print(f"Error searching documents: {e}")
             return {}
 
     def get_document(self, doc_id):
+        endpoint = f"{self.base_url}/doc/{doc_id}/"
         try:
-            resp = requests.post(f"{self.base_url}/doc/{doc_id}/", headers=self.headers)
-            return resp.json() if resp.status_code == 200 else {}
-        except:
+            response = requests.post(endpoint, headers=self.headers)
+            response.raise_for_status()
+            return response.json()
+        except requests.exceptions.RequestException as e:
+            print(f"Error fetching document {doc_id}: {e}")
             return {}
