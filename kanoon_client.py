@@ -2,7 +2,7 @@ import os
 import requests
 from dotenv import load_dotenv
 
-load_dotenv()  # loads .env locally; in production env vars are already set
+load_dotenv()  
 
 class KanoonClient:
     def __init__(self, api_token: str | None = None, base_url: str | None = None, timeout: int = 30):

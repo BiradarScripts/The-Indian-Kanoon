@@ -5,5 +5,4 @@ requests
 presidio-analyzer
 presidio-anonymizer
 spacy
-gunicorn
 python-dotenv

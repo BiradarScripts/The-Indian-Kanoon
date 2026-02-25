@@ -1,10 +1,22 @@
 from presidio_analyzer import AnalyzerEngine
+from presidio_analyzer.nlp_engine import NlpEngineProvider # <--- Added this import
 from presidio_anonymizer import AnonymizerEngine
 from presidio_anonymizer.entities import OperatorConfig
 
 class SmartMasker:
     def __init__(self):
-        self.analyzer = AnalyzerEngine()
+        # 1. Configure Presidio to use the SMALL Spacy model (Low RAM usage)
+        configuration = {
+            "nlp_engine_name": "spacy",
+            "models": [{"lang_code": "en", "model_name": "en_core_web_sm"}],
+        }
+        
+        # 2. Initialize the engine with this config
+        provider = NlpEngineProvider(nlp_configuration=configuration)
+        nlp_engine = provider.create_engine()
+
+        # 3. Pass the lightweight engine to the Analyzer
+        self.analyzer = AnalyzerEngine(nlp_engine=nlp_engine)
         self.anonymizer = AnonymizerEngine()
         
         # Keywords that indicate a person is a victim or family member
@@ -45,7 +57,6 @@ class SmartMasker:
             if res.entity_type == "PERSON":
                 # Check if this specific instance has "victim/wife/etc" nearby
                 if self._is_sensitive_context(text, res.start, res.end):
-                    # Get the actual text of the name (e.g., "Sita")
                     name = text[res.start:res.end]
                     identified_victim_names.add(name)
 
@@ -65,9 +76,6 @@ class SmartMasker:
                 # If this name was flagged as a victim ANYWHERE in the doc, mask it HERE too.
                 if name_in_text in identified_victim_names:
                     final_results_to_mask.append(res)
-                else:
-                    # It's likely a Judge/Lawyer who never appeared near "victim" words
-                    pass
 
         # 4. Anonymize
         anonymized_result = self.anonymizer.anonymize(
